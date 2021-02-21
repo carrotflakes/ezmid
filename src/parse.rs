@@ -78,7 +78,16 @@ pub fn parse(data: &[u8]) -> Vec<Event> {
                     }
                     _ => {}
                 },
-                MidiMessage::ProgramChange { program: _ } => {}
+                MidiMessage::ProgramChange { program } => {
+                    events.push(Event {
+                        track: track as u8,
+                        beat: tick as f64 / tpb as f64,
+                        channel: channel.as_int() as u32,
+                        body: EventBody::ProgramChange {
+                            program: program.as_int(),
+                        },
+                    });
+                }
                 MidiMessage::ChannelAftertouch { vel: _ } => {}
                 MidiMessage::PitchBend { bend } => {
                     events.push(Event {

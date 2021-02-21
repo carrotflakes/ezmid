@@ -30,6 +30,9 @@ pub enum EventBody {
         bend: f32,
         raw_bend: i16, // in -8192..=8191
     },
+    ProgramChange {
+        program: u8,
+    },
     Tempo {
         tempo: f64,
     },
