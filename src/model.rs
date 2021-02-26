@@ -26,6 +26,14 @@ pub enum EventBody {
         pan: f32,
         raw_pan: u8,
     },
+    Modulation {
+        modulation: f32,
+        raw_modulation: u8,
+    },
+    Expression {
+        expression: f32,
+        raw_expression: u8,
+    },
     PitchBend {
         bend: f32,
         raw_bend: i16, // in -8192..=8191
