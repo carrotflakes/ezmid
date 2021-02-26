@@ -24,7 +24,9 @@ pub fn parse(data: &[u8]) -> Vec<Event> {
     flat_events.sort_by_key(|e| e.1);
 
     let mut events = Vec::new();
-    let pitchbend_range = 2;
+    let mut pitchbend_range = 2;
+    let mut rpn_lsb: u8 = 127;
+    let mut rpn_msb: u8 = 127;
     for (track, tick, event) in flat_events {
         match event.kind {
             TrackEventKind::Midi { channel, message } => match message {
@@ -54,6 +56,12 @@ pub fn parse(data: &[u8]) -> Vec<Event> {
                 }
                 MidiMessage::Aftertouch { key: _, vel: _ } => {}
                 MidiMessage::Controller { controller, value } => match controller.as_int() {
+                    6 => match (rpn_lsb, rpn_msb) {
+                        (0, 0) => {
+                            pitchbend_range = value.as_int();
+                        }
+                        _ => {}
+                    },
                     7 => {
                         events.push(Event {
                             track: track as u8,
@@ -75,6 +83,12 @@ pub fn parse(data: &[u8]) -> Vec<Event> {
                                 raw_pan: value.as_int(),
                             },
                         });
+                    }
+                    100 => {
+                        rpn_lsb = value.as_int();
+                    }
+                    101 => {
+                        rpn_msb = value.as_int();
                     }
                     _ => {}
                 },
