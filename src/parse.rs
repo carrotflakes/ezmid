@@ -54,7 +54,7 @@ pub fn parse(data: &[u8]) -> Vec<Event> {
                         events.push(Event {
                             track: track as u8,
                             beat: tick as f64 / tpb as f64,
-                            channel: channel_no.as_int() as u32,
+                            channel: channel_no.as_int(),
                             body: EventBody::NoteOff {
                                 notenum: key.as_int(),
                                 velocity: vel.as_int() as f32 / 127.0,
@@ -66,7 +66,7 @@ pub fn parse(data: &[u8]) -> Vec<Event> {
                         events.push(Event {
                             track: track as u8,
                             beat: tick as f64 / tpb as f64,
-                            channel: channel_no.as_int() as u32,
+                            channel: channel_no.as_int(),
                             body: EventBody::NoteOn {
                                 notenum: key.as_int(),
                                 velocity: vel.as_int() as f32 / 127.0,
@@ -80,7 +80,7 @@ pub fn parse(data: &[u8]) -> Vec<Event> {
                             events.push(Event {
                                 track: track as u8,
                                 beat: tick as f64 / tpb as f64,
-                                channel: channel_no.as_int() as u32,
+                                channel: channel_no.as_int(),
                                 body: EventBody::Modulation {
                                     modulation: value.as_int() as f32 / 127.0,
                                     raw_modulation: value.as_int(),
@@ -97,7 +97,7 @@ pub fn parse(data: &[u8]) -> Vec<Event> {
                             events.push(Event {
                                 track: track as u8,
                                 beat: tick as f64 / tpb as f64,
-                                channel: channel_no.as_int() as u32,
+                                channel: channel_no.as_int(),
                                 body: EventBody::Volume {
                                     volume: value.as_int() as f32 / 127.0,
                                     raw_volume: value.as_int(),
@@ -108,7 +108,7 @@ pub fn parse(data: &[u8]) -> Vec<Event> {
                             events.push(Event {
                                 track: track as u8,
                                 beat: tick as f64 / tpb as f64,
-                                channel: channel_no.as_int() as u32,
+                                channel: channel_no.as_int(),
                                 body: EventBody::Pan {
                                     pan: ((value.as_int() as f32 - 64.0) / 63.0).max(-1.0),
                                     raw_pan: value.as_int(),
@@ -119,7 +119,7 @@ pub fn parse(data: &[u8]) -> Vec<Event> {
                             events.push(Event {
                                 track: track as u8,
                                 beat: tick as f64 / tpb as f64,
-                                channel: channel_no.as_int() as u32,
+                                channel: channel_no.as_int(),
                                 body: EventBody::Expression {
                                     expression: value.as_int() as f32 / 127.0,
                                     raw_expression: value.as_int(),
@@ -138,7 +138,7 @@ pub fn parse(data: &[u8]) -> Vec<Event> {
                         events.push(Event {
                             track: track as u8,
                             beat: tick as f64 / tpb as f64,
-                            channel: channel_no.as_int() as u32,
+                            channel: channel_no.as_int(),
                             body: EventBody::ProgramChange {
                                 program: program.as_int(),
                             },
@@ -149,7 +149,7 @@ pub fn parse(data: &[u8]) -> Vec<Event> {
                         events.push(Event {
                             track: track as u8,
                             beat: tick as f64 / tpb as f64,
-                            channel: channel_no.as_int() as u32,
+                            channel: channel_no.as_int(),
                             body: EventBody::PitchBend {
                                 bend: bend.as_f32() * channel.pitchbend_range as f32,
                                 raw_bend: bend.as_int(),

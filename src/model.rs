@@ -2,7 +2,7 @@
 pub struct Event {
     pub track: u8,
     pub beat: f64,
-    pub channel: u32,
+    pub channel: u8,
     pub body: EventBody,
 }
 

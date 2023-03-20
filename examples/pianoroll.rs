@@ -1,7 +1,10 @@
 use ezmid::Dispatcher;
 
 fn main() {
-    let file = std::env::args().skip(1).next().unwrap_or("./youkoso.mid".to_string());
+    let file = std::env::args()
+        .skip(1)
+        .next()
+        .unwrap_or("./youkoso.mid".to_string());
     let data = std::fs::read(&file).unwrap();
     let events = ezmid::parse(&data);
 
@@ -32,7 +35,7 @@ fn main() {
     }
 }
 
-fn show_keys(keys: &[usize], channels: &[u32]) -> String {
+fn show_keys(keys: &[usize], channels: &[u8]) -> String {
     let mut s = String::new();
     for (key, c) in keys.iter().zip(channels) {
         s += &if *key > 0 {
