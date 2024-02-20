@@ -13,12 +13,12 @@ fn main() {
     let events = ezmid::parse(&data);
 
     // Render to buffer
-    let buffer: Vec<f32> = render_to_buffer(44100.0, events);
-    let sec = buffer.len() as f32 / 44100.0;
+    let buffer: Vec<f32> = render_to_buffer(48000.0, events);
+    let sec = buffer.len() as f32 / 48000.0;
 
     // Play the buffer
     let (_stream, stream_handle) = rodio::OutputStream::try_default().unwrap();
-    let source = rodio::buffer::SamplesBuffer::new(1, 44100, buffer);
+    let source = rodio::buffer::SamplesBuffer::new(1, 48000, buffer);
     stream_handle.play_raw(source).unwrap();
 
     std::thread::sleep(std::time::Duration::from_secs(sec as u64 + 1));
@@ -36,10 +36,12 @@ pub fn render_to_buffer(sample_rate: f32, events: Vec<Event>) -> Vec<f32> {
             let mut sample = 0.0;
             for note in &notes {
                 sample += note.amp
-                    * ((time - note.start_time) * note.frequency * std::f32::consts::TAU).sin();
+                    * ((time - note.start_time) * note.frequency / sample_rate
+                        * std::f32::consts::TAU)
+                        .sin();
             }
             buffer.push(sample * scale);
-            time += 1.0 / sample_rate;
+            time += 1.0;
         }
 
         let channel = event.event.channel;
